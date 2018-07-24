@@ -1,4 +1,5 @@
-# See https://help.github.com/ignore-files/ for more about ignoring files.
+*.log
+package-lock.json
 
 # dependencies
 /node_modules
@@ -8,6 +9,7 @@
 
 # production
 /build
+/dist
 
 # misc
 .DS_Store
