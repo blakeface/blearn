@@ -24,12 +24,10 @@ module.exports = {
 					{
 						loader: 'css-loader',
 						options: {
-							modules: true,
-							importLoaders: 1,
+							modules: false,
 							localIdentName: '[name]_[sha1:hash:hex:4]',
 							sourceMap: true,
-							minimize: true,
-							camelCase: true,
+							importLoaders: 1,
 						}
 					},
 					{
