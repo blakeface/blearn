@@ -1,18 +1,22 @@
-import React, { Component } from 'react'
+import React, { Component } from 'react';
+
+import AuthForm from './components/auth-form'
+import style from './app.css'
 
 export default class App extends Component {
 
-	handleFormSubmit(e) {
-		e.preventDefault();
-		console.log('form data:', e)
+	constructor(props){
+		super(props)
+
+		this.state = {
+			authMode: false,
+		}
 	}
 
-	handleInputFocus(e) {
-		e.target.parentNode.classList.add('input-filled')
-	}
-
-	handleInputBlur(e) {
-		if ( ! e.target.value.length) e.target.parentNode.classList.remove('input-filled')
+	handleButtonClick = e => {
+		this.setState({
+			authMode: e.target.id,
+		})
 	}
 
 	render() {
@@ -23,28 +27,17 @@ export default class App extends Component {
 					<p>A Multidimensional learning app? Sounds good to me.</p>
 				</div>
 
-				<form onSubmit={this.handleFormSubmit}>
+				<div className="button-container">
+					<button className="input-button" id="signup" onClick={this.handleButtonClick}>
+						SIGN UP
+					</button>
+					<button className="input-button" id="login" onClick={this.handleButtonClick}>
+						LOGIN
+					</button>
+				</div>
 
-					<div className="inputs-container">
-						<div className="input">
-							<input onFocus={this.handleInputFocus} onBlur={this.handleInputBlur}
-										className="input-field" type="email" id="email" name="email" />
-							<label className="input-label" htmlFor="email">
-								<span className="label-content">Email</span>
-							</label>
-						</div>
+				{ this.state.authMode ? <AuthForm authMode={this.state.authMode}/> : null }
 
-						<div className="input">
-							<input onFocus={this.handleInputFocus} onBlur={this.handleInputBlur}
-										className="input-field" type="password" id="password" name="password" />
-							<label className="input-label" htmlFor="email">
-								<span className="label-content">Password</span>
-							</label>
-						</div>
-					</div>
-
-					<button className="input-button" type="submit">CHA CHING!</button>
-				</form>
 			</section>
 		);
 	}
