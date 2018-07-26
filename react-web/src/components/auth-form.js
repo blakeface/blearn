@@ -12,10 +12,9 @@ export default class AuthForm extends Component {
 		this.state = {
 			authMode: props.authMode,
 			email: '',
-			password: '',
+			passwordPrimary: '',
+			passwordSecondary: '',
 		}
-
-		console.log(props)
 	}
 
 	handleFormSubmit (e) {
@@ -26,8 +25,10 @@ export default class AuthForm extends Component {
 	}
 
 	handleInputChange = (e) => {
-		// udpate email and password
-		this.setState({[e.target.id]: e.target.value})
+		// udpate email and password states
+		this.setState({
+			[e.target.id]: e.target.value
+		})
 		// toggle .input-filled class
 		if ( ! e.target.value.length) e.target.parentNode.classList.remove('input-filled')
 		else e.target.parentNode.classList.add('input-filled')
@@ -48,8 +49,17 @@ export default class AuthForm extends Component {
 						</label>
 					</div>
 
-					<Password role="primary"/>
-					{ this.state.authMode == 'signup' ? <Password role="secondary" /> : null }
+					<Password role="Primary"
+										onChangeProp={this.handleInputChange}
+										valueProp={this.state.passwordPrimary}
+										/>
+
+					{ this.state.authMode == 'signup'
+						? <Password role="Secondary"
+												onChangeProp={this.handleInputChange}
+												valueProp={this.state.passwordSecondary}
+												/>
+						: null }
 				</div>
 
 				<button className="input-button" type="submit">CHA CHING!</button>
