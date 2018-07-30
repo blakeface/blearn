@@ -1,0 +1,126 @@
+/*
+source for input stytes:
+https://tympanus.net/codrops/2015/01/08/inspiration-text-input-effects
+*/
+
+.inputs-container {
+	display: flex;
+	flex-direction: row;
+	justify-content: space-around;
+	width: 80vw;
+	max-width: 600px;
+}
+
+.input {
+	position: relative;
+	z-index: 1;
+	display: inline-block;
+	margin: 1em;
+	max-width: 350px;
+	width: calc(100% - 2em);
+	vertical-align: top;
+}
+
+.input-field {
+	position: relative;
+	display: block;
+	float: right;
+	border: none;
+	border-radius: 0;
+	font-weight: 400;
+	font-family: "Avenir Next", "Helvetica Neue", Helvetica, Arial, sans-serif;
+	-webkit-appearance: none; /* for box shadows to show on iOS */
+	width: 100%;
+	background: transparent;
+	padding: 0.5em 0;
+	margin-bottom: 2em;
+	color: #000;
+}
+
+.input-field:focus {
+	outline: none;
+}
+
+.input-label {
+	display: inline-block;
+	float: right;
+	color: #000;
+	font-weight: bold;
+	-webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+	-webkit-touch-callout: none;
+	-webkit-user-select: none;
+	-khtml-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+	width: 100%;
+	position: absolute;
+	text-align: left;
+	font-size: 1em;
+	padding: 10px 0 5px;
+	pointer-events: none;
+}
+
+.input-label::after {
+	content: '';
+	position: absolute;
+	width: 100%;
+	height: 7px;
+	left: 0;
+	top: 100%;
+	-webkit-transform-origin: 50% 100%;
+	transform-origin: 50% 100%;
+	-webkit-transition: -webkit-transform 0.3s, background-color 0.3s;
+	transition: transform 0.3s, background-color 0.3s;
+}
+
+.label-content {
+	position: relative;
+	display: block;
+	width: 100%;
+	padding: 0;
+	-webkit-transform-origin: 0 0;
+	transform-origin: 0 0;
+	-webkit-transition: -webkit-transform 0.3s, color 0.3s;
+	transition: transform 0.3s, color 0.3s;
+}
+
+.input-field:focus + .input-label::after
+, .input-filled .input-label::after {
+	-webkit-transform: scale3d(1, 0.25, 1);
+	transform: scale3d(1, 0.25, 1);
+}
+
+.input-field:focus + .input-label .label-content
+, .input-filled .input-label .label-content {
+	-webkit-transform: translate3d(0, 2em, 0) scale3d(0.655, 0.655, 1);
+	transform: translate3d(0, 2em, 0) scale3d(0.655, 0.655, 1);
+}
+
+/* colors */
+.signup .input-label::after {
+	background: var(--signup-input-line-color);
+}
+.login .input-label::after {
+	background: var(--login-input-line-color);
+}
+
+.signup .input-field:focus + .input-label::after
+, .signup .input-filled .input-label::after {
+	background: var(--signup-button-color);
+}
+.login .input-field:focus + .input-label::after
+, .login .input-filled .input-label::after {
+	background: var(--login-button-color);
+}
+
+.signup .input-field:focus + .input-label .label-content
+, .signup .input-filled .input-label .label-content {
+	color: var(--signup-button-color);
+}
+.login .input-field:focus + .input-label .label-content
+,.login .input-filled .input-label .label-content {
+	color: var(--login-button-color);
+}
+/* end colors */

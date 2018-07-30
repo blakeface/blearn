@@ -2,15 +2,18 @@ import React, {Component} from 'react'
 import Amplify, { API, Auth } from 'aws-amplify';
 import aws_exports from '../aws-exports';
 
-import style from './auth-form.css'
+// components
 import Password from './password'
+// styles
+import formStyles from '../stylesheets/form.css'
+import buttonStyles from '../stylesheets/button.css'
+import inputStyles from '../stylesheets/input.css'
 
 export default class AuthForm extends Component {
 	constructor(props) {
 		super(props)
 
 		this.state = {
-			authMode: props.authMode,
 			email: '',
 			passwordPrimary: '',
 			passwordSecondary: '',
@@ -50,13 +53,13 @@ export default class AuthForm extends Component {
 					</div>
 
 					<Password role="Primary"
-										onChangeProp={this.handleInputChange}
+										handleChange={this.handleInputChange}
 										valueProp={this.state.passwordPrimary}
 										/>
 
-					{ this.state.authMode == 'signup'
+					{ this.props.authMode == 'signup'
 						? <Password role="Secondary"
-												onChangeProp={this.handleInputChange}
+												handleChange={this.handleInputChange}
 												valueProp={this.state.passwordSecondary}
 												/>
 						: null }

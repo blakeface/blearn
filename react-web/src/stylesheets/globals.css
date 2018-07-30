@@ -1,0 +1,53 @@
+:root {
+	/* defaults */
+  --default-background-color: #A08896;
+
+  /* signup */
+  --signup-background-color: #F3A9AE;
+  --signup-button-color: #FE4365;
+  --signup-input-line-color: #FC9D9A;
+
+  /* login */
+  --login-background-color: #F9CDAD;
+  --login-button-color: #83AF9B;
+  --login-input-line-color: #C8C8A9;
+}
+
+body, main {
+	margin: 0;
+	padding: 0;
+	font-family: sans-serif;
+}
+
+main {
+	background: linear-gradient(300deg, var(--default-background-color), #FFF);
+}
+
+section {
+	display: flex;
+	flex-flow: column nowrap;
+	align-items: center;
+	justify-content: space-around;
+	width: 100vw;
+	height: 100vh;
+}
+
+section.signup {
+	background: linear-gradient(300deg, var(--signup-background-color), #FFF);
+}
+section.login {
+	background: linear-gradient(300deg, var(--login-background-color), #FFF);
+}
+h1 {
+	 color: black;
+	 background: url('/assets/images/space.png');
+	 -webkit-background-clip: text;
+	 -webkit-text-fill-color: transparent;
+	 font-size: 17vw;
+	 margin: 0;
+}
+
+p {
+	text-align: center;
+	margin: 0;
+}

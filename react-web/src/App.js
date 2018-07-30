@@ -1,7 +1,10 @@
 import React, { Component } from 'react';
 
+// components
 import AuthForm from './components/auth-form'
-import style from './app.css'
+// styles
+import globalStyle from './stylesheets/globals.css'
+import buttonStyles from './stylesheets/button.css'
 
 export default class App extends Component {
 
@@ -9,7 +12,7 @@ export default class App extends Component {
 		super(props)
 
 		this.state = {
-			authMode: false,
+			authMode: 'default',
 		}
 	}
 
@@ -21,7 +24,7 @@ export default class App extends Component {
 
 	render() {
 		return (
-			<section>
+			<section className={this.state.authMode}>
 				<div>
 					<h1>BLEARN</h1>
 					<p>A Multidimensional learning app? Sounds good to me.</p>
@@ -36,7 +39,9 @@ export default class App extends Component {
 					</button>
 				</div>
 
-				{ this.state.authMode ? <AuthForm authMode={this.state.authMode}/> : null }
+				{ (this.state.authMode == 'signup' || this.state.authMode == 'login')
+					? <AuthForm authMode={this.state.authMode}/>
+					: null }
 
 			</section>
 		);

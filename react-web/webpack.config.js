@@ -24,7 +24,6 @@ module.exports = {
 					{
 						loader: 'css-loader',
 						options: {
-							modules: false,
 							localIdentName: '[name]_[sha1:hash:hex:4]',
 							sourceMap: true,
 							importLoaders: 1,

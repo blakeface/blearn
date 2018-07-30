@@ -9,8 +9,9 @@ export default class Password extends Component {
 							type="password"
 							id={"password" + this.props.role}
 							name="password"
-							onChange={this.props.onChangeProp}
-							value={this.props.valueProp}
+							onChange={this.props.handleChange}
+							value={this.props.value}
+							onBlur={this.props.validatePassword}
 							/>
 				<label className="input-label" htmlFor="email">
 					<span className="label-content">
