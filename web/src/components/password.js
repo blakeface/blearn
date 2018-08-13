@@ -4,11 +4,11 @@ export default class Password extends Component {
 
 	render() {
 		return (
-			<div className="input">
+			<div className={'input ' + (this.props.hasError ? 'error' : '')}>
 				<input className="input-field"
 							type="password"
 							id={"password" + this.props.role}
-							name="password"
+							name={"password" + this.props.role}
 							onChange={this.props.handleChange}
 							value={this.props.value}
 							onBlur={this.props.validatePassword}

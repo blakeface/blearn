@@ -14,9 +14,11 @@ export default class App extends Component {
 		this.state = {
 			authMode: 'default',
 		}
+
+		this.handleButtonClick = this.handleButtonClick.bind(this)
 	}
 
-	handleButtonClick = e => {
+	handleButtonClick(e) {
 		this.setState({
 			authMode: e.target.id,
 		})

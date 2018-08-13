@@ -3,17 +3,21 @@ const HtmlWebpackPlugin = require('html-webpack-plugin')
 const CopyWebpackPlugin = require('copy-webpack-plugin')
 
 module.exports = {
+	entry: ['babel-polyfill', './src'],
+
 	devServer: {
 		hot: true,
 		watchOptions: {
 			poll: true
 		}
 	},
+
 	module: {
 		rules: [
 			{
 				test: /\.js$/,
-				use: 'babel-loader'
+				use: 'babel-loader',
+				exclude: /node_modules/
 			},
 			{
 				test: /\.css$/,
@@ -41,6 +45,7 @@ module.exports = {
 			},
 		]
 	},
+
 	plugins: [
 		new webpack.HotModuleReplacementPlugin(),
 		new HtmlWebpackPlugin({
