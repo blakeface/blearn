@@ -19,11 +19,19 @@ export default class AuthForm extends Component {
 			// passwords
 			passwordPrimary: '',
 			passwordSecondary: '',
-			passwordPrimaryError: false,
-			passwordSecondaryError: false,
+			passwordInvalid: false,
+			passwordMismatch: false,
 			// email
 			email: '',
 			emailError: false,
+		}
+
+		this.error = {
+			email: {
+				__html: "Hmmm, something doesn't look right. Does your email follow this format: <i>name@domain.tld</i>?"
+			},
+			passwordPrimary: "wrong!",
+			passwordSecondary: "doesn't match!"
 		}
 
 		this.handleFormSubmit = this.handleFormSubmit.bind(this)
@@ -34,18 +42,20 @@ export default class AuthForm extends Component {
 	async handleFormSubmit(e) {
 		e.preventDefault();
 
+		console.log(this.state.email, this.state.passwordPrimary, this.props.authMode)
+
 		// signup
-		// if (this.props.authMode == 'signup') {
-		// 	await Auth.signUp(this.state.email, this.state.password)
-		// 		.then(data => console.log(data))
-		// 		.catch(err => console.error(err))
-		// }
-		// // login
-		// else {
-		// 	await Auth.signUp(this.state.email, this.state.password)
-		// 		.then(data => console.log(data))
-		// 		.catch(err => console.error(err))
-		// }
+		if (this.props.authMode == 'signup') {
+			await Auth.signUp(this.state.email, this.state.passwordPrimary)
+				.then(data => console.log(data))
+				.catch(err => console.error(err))
+		}
+		// login
+		else {
+			await Auth.signIn(this.state.email, this.state.passwordPrimary)
+				.then(data => console.log(data))
+				.catch(err => console.error(err))
+		}
 	}
 
 	handleInputChange(e) {
@@ -64,22 +74,37 @@ export default class AuthForm extends Component {
 
 	validateInput(e) {
 		const value = e.target.value
-		const parentNode = e.target.parentNode
 		const emailReg = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+		const passwordRegDigit = /\d+/;
+		const passwordRegLower = /[a-z]/;
+		const passwordRegUpper = /[A-Z]/;
+		const passwordRegSpecial = /[A-Z]/;
 
 		switch (e.target.id) {
 			case ('email'):
 				// length test
-				this.setState({ emailError: value.trim().length > 0 })
+				this.setState({ emailError: value.trim().length === 0 })
 				// regex tests
-				this.setState({ emailError: emailReg.test(value) })
+				this.setState({ emailError: ! emailReg.test(value) })
 				break
 			case ('passwordPrimary'):
-				this.setState({ passwordRequired: value.trim().length > 0 })
+				// length test
+				// this.setState({ passwordInvalid: value.trim().length === 0 })
+				// regex test
+				this.setState({ passwordInvalid: ! passwordRegDigit.test(value) })
 				break
 			case ('passwordSecondary'):
-				this.setState({ passwordMatch: (value == this.state.passwordPrimary) })
+				// equality test
+				this.setState({ passwordMismatch: (value !== this.state.passwordPrimary) })
+				break
 		}
+
+		console.log(`
+			passwordPrimary: ${this.state.passwordPrimary}
+			passwordSecondary: ${this.state.passwordSecondary}
+			passwordInvalid: ${this.state.passwordInvalid}
+			passwordMismatch: ${this.state.passwordMismatch}
+		`)
 	}
 
 	render() {
@@ -87,11 +112,11 @@ export default class AuthForm extends Component {
 			<form onSubmit={this.handleFormSubmit}>
 
 				<div className="inputs-container">
-					<div className={'input ' + (this.state.emailRequired || this.state.emailInvalid ? 'error' : '')}>
+					<div className="input">
 						<input className="input-field" type="email" id="email" name="email"
 									onChange={this.handleInputChange}
 									value={this.state.email}
-									// onBlur={this.validateInput}
+									onBlur={this.validateInput}
 									/>
 						<label className="input-label" htmlFor="email">
 							<span className="label-content">Email</span>
@@ -100,24 +125,36 @@ export default class AuthForm extends Component {
 
 					<Password role="Primary"
 										handleChange={this.handleInputChange}
-										value={this.state.passwordPrimary}
-										// validatePassword={this.validateInput}
-										hasError={(this.state.passwordRequired || this.state.passwordIncorrect)}
+										value={this.state.password}
+										validatePassword={this.validateInput}
 										/>
 
 					{ this.props.authMode == 'signup'
 						? <Password role="Secondary"
 												handleChange={this.handleInputChange}
 												value={this.state.passwordSecondary}
-												// validatePassword={this.validateInput}
-												hasError={(this.state.passwordRequired
-														|| this.state.passwordIncorrec
-														|| ! this.state.passwordMatch)}
+												validatePassword={this.validateInput}
 												/>
 						: null }
 				</div>
 
-				<button className="input-button" type="submit">CHA CHING!</button>
+				{ this.state.emailError
+						? <span className="error" dangerouslySetInnerHTML={this.error.email}></span>
+						: null }
+
+				{ this.state.passwordInvalid
+					? <span className="error">{this.error.passwordPrimary}</span>
+					: null }
+
+				{ this.state.passwordMismatch
+					? <span className="error">{this.error.passwordSecondary}</span>
+					: null }
+
+				<button className={"input-button " + (this.state.hasError ? 'error' : '')}
+								type="submit"
+								>
+					CHA CHING!
+				</button>
 			</form>
 		)
 	}

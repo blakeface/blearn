@@ -4,7 +4,7 @@ export default class Password extends Component {
 
 	render() {
 		return (
-			<div className={'input ' + (this.props.hasError ? 'error' : '')}>
+			<div className="input">
 				<input className="input-field"
 							type="password"
 							id={"password" + this.props.role}
@@ -13,7 +13,7 @@ export default class Password extends Component {
 							value={this.props.value}
 							onBlur={this.props.validatePassword}
 							/>
-				<label className="input-label" htmlFor="email">
+				<label className="input-label" htmlFor={"password" + this.props.role}>
 					<span className="label-content">
 						{this.props.role == 'Secondary' ? 'Confirm' : ''} Password
 					</span>

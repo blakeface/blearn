@@ -2,11 +2,12 @@
 
 Not sure about the name.
 
-React Native app of a continuous learning platform... that sounds good.
+A continuous learning platform... that sounds good.
 
 Going to use:
-* Node
 * React and React-native
+* AWS Cognito
+* Serverless!
 * RealM for storage
 * MongoDB for DB
-* Chrome extention
+* Chrome extention and Firefox addon 🤞

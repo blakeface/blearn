@@ -29,7 +29,7 @@ export default class App extends Component {
 			<section className={this.state.authMode}>
 				<div>
 					<h1>BLEARN</h1>
-					<p>A Multidimensional learning app? Sounds good to me.</p>
+					<p>A multidimensional learning app? Sounds good to me.</p>
 				</div>
 
 				<div className="button-container">
