@@ -1,16 +1,20 @@
 :root {
 	/* defaults */
-  --default-background-color: #A08896;
+  --default-background: #A08896;
 
   /* signup */
-  --signup-background-color: #F3A9AE;
-  --signup-button-color: #FE4365;
-  --signup-input-line-color: #FC9D9A;
+  --signup-background: #F3A9AE;
+  --signup-button: #FE4365;
+  --signup-input-line: #FC9D9A;
+  --signup-error-primary: #42F9CB;
+  --signup-error-secondary: #A0FCE5;
 
   /* login */
-  --login-background-color: #F9CDAD;
-  --login-button-color: #83AF9B;
-  --login-input-line-color: #C8C8A9;
+  --login-background: #F9CDAD;
+  --login-button: #83AF9B;
+  --login-input-line: #C8C8A9;
+  --login-error-primary: #000;
+  --login-error-secondary: #FFF;
 }
 
 body, main {
@@ -20,7 +24,7 @@ body, main {
 }
 
 main {
-	background: linear-gradient(300deg, var(--default-background-color), #FFF);
+	background: linear-gradient(300deg, var(--default-background), #FFF);
 }
 
 section {
@@ -33,10 +37,10 @@ section {
 }
 
 section.signup {
-	background: linear-gradient(300deg, var(--signup-background-color), #FFF);
+	background: linear-gradient(300deg, var(--signup-background), #FFF);
 }
 section.login {
-	background: linear-gradient(300deg, var(--login-background-color), #FFF);
+	background: linear-gradient(300deg, var(--login-background), #FFF);
 }
 h1 {
 	 color: black;

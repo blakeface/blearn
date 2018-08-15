@@ -16,22 +16,28 @@ export default class AuthForm extends Component {
 		super(props)
 
 		this.state = {
-			// passwords
+			// PASSWORDS
 			passwordPrimary: '',
 			passwordSecondary: '',
+			// validation
 			passwordInvalid: false,
 			passwordMismatch: false,
-			// email
+			// length checks
+			passwordPrimaryLength: 0,
+			passwordSecondaryLength: 0,
+
+			// EMAILS
 			email: '',
 			emailError: false,
+			emailLength: 0,
 		}
 
 		this.error = {
 			email: {
-				__html: "Hmmm, something doesn't look right. Does your email follow this format: <i>name@domain.tld</i>?"
+				__html: "Your email looks weird. Does it follow this format: <i>name@domain.tld</i>?"
 			},
-			passwordPrimary: "wrong!",
-			passwordSecondary: "doesn't match!"
+			passwordPrimary: "Password must be at least 8 characters long",
+			passwordSecondary: "Passwords don't match :("
 		}
 
 		this.handleFormSubmit = this.handleFormSubmit.bind(this)
@@ -41,8 +47,6 @@ export default class AuthForm extends Component {
 
 	async handleFormSubmit(e) {
 		e.preventDefault();
-
-		console.log(this.state.email, this.state.passwordPrimary, this.props.authMode)
 
 		// signup
 		if (this.props.authMode == 'signup') {
@@ -62,57 +66,53 @@ export default class AuthForm extends Component {
 		const value = e.target.value
 		const parentNode = e.target.parentNode
 
-		// udpate email and password states
+		// update email and password states
 		this.setState({
-			[e.target.id]: value
+			[e.target.id]: value,
+			[`${e.target.id}Length`]: value.length
 		})
 
-		// toggle .input-filled class
-		if (value.length) parentNode.classList.add('input-filled')
-		else parentNode.classList.remove('input-filled')
+
 	}
 
 	validateInput(e) {
 		const value = e.target.value
 		const emailReg = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-		const passwordRegDigit = /\d+/;
-		const passwordRegLower = /[a-z]/;
-		const passwordRegUpper = /[A-Z]/;
-		const passwordRegSpecial = /[A-Z]/;
 
 		switch (e.target.id) {
 			case ('email'):
-				// length test
-				this.setState({ emailError: value.trim().length === 0 })
-				// regex tests
+				// regex test
 				this.setState({ emailError: ! emailReg.test(value) })
 				break
 			case ('passwordPrimary'):
 				// length test
-				// this.setState({ passwordInvalid: value.trim().length === 0 })
-				// regex test
-				this.setState({ passwordInvalid: ! passwordRegDigit.test(value) })
+				this.setState({ passwordInvalid: value.trim().length < 7 })
 				break
 			case ('passwordSecondary'):
 				// equality test
-				this.setState({ passwordMismatch: (value !== this.state.passwordPrimary) })
+				this.setState({ passwordMismatch: value !== this.state.passwordPrimary })
 				break
 		}
 
-		console.log(`
-			passwordPrimary: ${this.state.passwordPrimary}
-			passwordSecondary: ${this.state.passwordSecondary}
-			passwordInvalid: ${this.state.passwordInvalid}
-			passwordMismatch: ${this.state.passwordMismatch}
-		`)
+		// console.log(`
+		// 	passwordPrimary: ${this.state.passwordPrimary}
+		// 	passwordSecondary: ${this.state.passwordSecondary}
+		// 	passwordInvalid: ${this.state.passwordInvalid}
+		// 	passwordMismatch: ${this.state.passwordMismatch}
+		// `)
 	}
 
 	render() {
+		const hasError = ( this.state.emailError
+			|| this.state.passwordInvalid
+			|| this.state.passwordMismatch
+		)
+
 		return (
 			<form onSubmit={this.handleFormSubmit}>
 
 				<div className="inputs-container">
-					<div className="input">
+					<div className={'input' + (this.state.emailError ? ' error' : '') + (this.state.emailLength > 0 ? ' input-filled' : '' )}>
 						<input className="input-field" type="email" id="email" name="email"
 									onChange={this.handleInputChange}
 									value={this.state.email}
@@ -127,6 +127,8 @@ export default class AuthForm extends Component {
 										handleChange={this.handleInputChange}
 										value={this.state.password}
 										validatePassword={this.validateInput}
+										hasError={this.state.passwordInvalid}
+										isFilled={this.state.passwordPrimaryLength > 0}
 										/>
 
 					{ this.props.authMode == 'signup'
@@ -134,26 +136,27 @@ export default class AuthForm extends Component {
 												handleChange={this.handleInputChange}
 												value={this.state.passwordSecondary}
 												validatePassword={this.validateInput}
+												hasError={this.state.passwordMismatch}
+												isFilled={this.state.passwordSecondaryLength > 0}
 												/>
 						: null }
 				</div>
 
 				{ this.state.emailError
-						? <span className="error" dangerouslySetInnerHTML={this.error.email}></span>
+						? <span className="errorMessage" dangerouslySetInnerHTML={this.error.email}></span>
 						: null }
 
 				{ this.state.passwordInvalid
-					? <span className="error">{this.error.passwordPrimary}</span>
+					? <span className="errorMessage">{this.error.passwordPrimary}</span>
 					: null }
 
 				{ this.state.passwordMismatch
-					? <span className="error">{this.error.passwordSecondary}</span>
+					? <span className="errorMessage">{this.error.passwordSecondary}</span>
 					: null }
 
-				<button className={"input-button " + (this.state.hasError ? 'error' : '')}
-								type="submit"
-								>
-					CHA CHING!
+				<button className={'input-button' + (hasError ? ' error' : '')}
+								type="submit">
+					{ hasError ? 'No dice' : 'Cha Ching!' }
 				</button>
 			</form>
 		)

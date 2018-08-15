@@ -98,29 +98,56 @@ https://tympanus.net/codrops/2015/01/08/inspiration-text-input-effects
 	transform: translate3d(0, 2em, 0) scale3d(0.655, 0.655, 1);
 }
 
-/* colors */
+/* ----COLORS---- */
+
+/* default state */
 .signup .input-label::after {
-	background: var(--signup-input-line-color);
+	background: var(--signup-input-line);
 }
 .login .input-label::after {
-	background: var(--login-input-line-color);
+	background: var(--login-input-line);
+}
+/* error state */
+.signup .error .input-label::after {
+	background: var(--signup-error-secondary);
+}
+.login .error .input-label::after {
+	background: var(--login-error-secondary);
 }
 
+
+/* default state */
 .signup .input-field:focus + .input-label::after
 , .signup .input-filled .input-label::after {
-	background: var(--signup-button-color);
+	background: var(--signup-button);
 }
 .login .input-field:focus + .input-label::after
 , .login .input-filled .input-label::after {
-	background: var(--login-button-color);
+	background: var(--login-button);
+}
+/* error state */
+.signup .error.input-filled .input-label::after {
+	background: var(--signup-error-primary);
+}
+.login .error.input-filled .input-label::after {
+	background: var(--login-error-primary);
 }
 
+
+/* default state */
 .signup .input-field:focus + .input-label .label-content
 , .signup .input-filled .input-label .label-content {
-	color: var(--signup-button-color);
+	color: var(--signup-button);
 }
 .login .input-field:focus + .input-label .label-content
-,.login .input-filled .input-label .label-content {
-	color: var(--login-button-color);
+, .login .input-filled .input-label .label-content {
+	color: var(--login-button);
 }
-/* end colors */
+/* error state */
+.signup .error.input-filled .input-label .label-content {
+	color: var(--signup-error-primary);
+}
+.login .error.input-filled .input-label .label-content {
+	color: var(--login-error-primary);
+}
+/* ---END COLORS--- */

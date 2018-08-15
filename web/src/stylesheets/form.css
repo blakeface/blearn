@@ -3,3 +3,40 @@ form {
 	flex-flow: column nowrap;
 	align-items: center;
 }
+
+.signup .errorMessage {
+	background: linear-gradient(
+		-45deg,
+		var(--signup-error-primary),
+		var(--signup-error-secondary),
+		#FFF
+	);
+}
+.login .errorMessage {
+	background: linear-gradient(
+		-45deg,
+		var(--login-error-primary),
+		var(--login-error-secondary),
+		#FFF
+	);
+}
+
+.errorMessage {
+	margin: 0.5em;
+	padding: 0.7em;
+	border-radius: 5px;
+	background-size: 400% 400%;
+	animation: Gradient 5s ease infinite;
+}
+
+@keyframes Gradient {
+	0% {
+		background-position: 0% 50%
+	}
+	50% {
+		background-position: 100% 50%
+	}
+	100% {
+		background-position: 0% 50%
+	}
+}

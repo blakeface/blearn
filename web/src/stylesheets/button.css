@@ -8,7 +8,6 @@ https://tympanus.net/Development/ButtonStylesInspiration
 	flex-flow: row wrap;
 }
 
-
 .input-button {
 	min-width: 150px;
 	max-width: 250px;
@@ -85,30 +84,44 @@ https://tympanus.net/Development/ButtonStylesInspiration
 	transform: scale3d(1, 1, 1);
 }
 
-/* colors */
+/* ----COLORS---- */
 .input-button#signup:hover::after
 , .input-button#signup:focus::after,
 , .singup .input-button:hover::after
 , .signup .input-button:focus::after, {
-	background-color: var(--signup-input-line-color);
+	background-color: var(--signup-input-line);
 }
 .input-button#login:hover::after
 , .input-button#login:focus::after
 , .login .input-button:hover::after
 , .login .input-button:focus::after {
-	background-color: var(--login-input-line-color);
+	background-color: var(--login-input-line);
 }
 
 .input-button#signup::before
 , .input-button#signup::after
 , .signup .input-button::before
 , .signup .input-button::after {
-	background: var(--signup-button-color);
+	background: var(--signup-button);
 }
+
 .input-button#login::before
 , .input-button#login::after
 , .login .input-button::before
 , .login .input-button::after {
-	background: var(--login-button-color);
+	background: var(--login-button);
 }
-/* end colors */
+
+/* error state */
+.input-button.error#signup::before
+, .input-button.error#signup::after
+, .signup .input-button.error::before
+, .signup .input-button.error::after
+, .input-button.error#login::before
+, .input-button.error#login::after
+, .login .input-button.error::before
+, .login .input-button.error::after {
+	background: var(--default-background);
+}
+
+/* ----END COLORS---- */

@@ -4,7 +4,7 @@ export default class Password extends Component {
 
 	render() {
 		return (
-			<div className="input">
+			<div className={'input' + (this.props.hasError ? ' error' : '') + (this.props.isFilled ? ' input-filled' : '' )}>
 				<input className="input-field"
 							type="password"
 							id={"password" + this.props.role}
