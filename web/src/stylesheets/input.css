@@ -111,9 +111,6 @@ https://tympanus.net/codrops/2015/01/08/inspiration-text-input-effects
 .signup .error .input-label::after {
 	background: var(--signup-error-secondary);
 }
-.login .error .input-label::after {
-	background: var(--login-error-secondary);
-}
 
 
 /* default state */
@@ -129,9 +126,6 @@ https://tympanus.net/codrops/2015/01/08/inspiration-text-input-effects
 .signup .error.input-filled .input-label::after {
 	background: var(--signup-error-primary);
 }
-.login .error.input-filled .input-label::after {
-	background: var(--login-error-primary);
-}
 
 
 /* default state */
@@ -146,8 +140,5 @@ https://tympanus.net/codrops/2015/01/08/inspiration-text-input-effects
 /* error state */
 .signup .error.input-filled .input-label .label-content {
 	color: var(--signup-error-primary);
-}
-.login .error.input-filled .input-label .label-content {
-	color: var(--login-error-primary);
 }
 /* ---END COLORS--- */
