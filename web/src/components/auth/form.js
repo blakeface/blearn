@@ -59,15 +59,15 @@ export default class AuthForm extends Component {
 				},
 			})
 				.then( async data => {
-					console.log('data from signUP', data)
-					this.setState({ loginSuccess: true })
+					console.log('data from signUp', data)
+					this.props.updateParentState({ loggedin: true })
 				})
 				.catch(err => {
 					this.handleError(err)
-					this.setState({
+					this.props.updateParentState({
 						// user already exists
-						errorUsernameExists: err.code == 'UsernameExistsException',
-						loginSuccess: false,
+						usernameExists: err.code == 'UsernameExistsException',
+						loggedin: false,
 					})
 				})
 
@@ -111,25 +111,27 @@ export default class AuthForm extends Component {
 			|| (id == 'passwordPrimary' && value.trim().length < 7) // password length test
 			|| (id == 'passwordSecondary' && value != this.state.passwordPrimary) // password equality test
 		) {
-			// don't override existing error
-			if ( ! this.state.errors.includes(id))
+			if ( ! this.state.errors.includes(id)) {
 				this.setState((prevState) => {
 					return prevState.errors.push(id)
 				})
+			}
 		}
 		else {
 			const i = this.state.errors.indexOf(id)
-			this.setState((prevState) => {
-				return prevState.errors.splice(i, 1)
-			})
+			if (i > -1) {
+				this.setState((prevState) => {
+					return prevState.errors.splice(i, 1)
+				})
+			}
 		}
 	}
 
 	componentDidUpdate(prevProps, prevState) {
 		// reset error message
-		if (prevProps != this.props) {
-			this.setState({ errorUsernameExists: false })
-		}
+		// if (prevProps != this.props) {
+		// 	this.setState({ errorUsernameExists: false })
+		// }
 	}
 
 	render() {
