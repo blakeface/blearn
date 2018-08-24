@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 // components
-import AuthForm from './components/auth-form'
-import AuthButtons from './components/auth-buttons'
+import AuthForm from './components/auth/form'
+import AuthButtons from './components/auth/buttons'
 // styles
 import globalStyle from './stylesheets/globals.css'
 

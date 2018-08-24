@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import buttonStyles from '../stylesheets/button.css'
+import buttonStyles from '../../stylesheets/button.css'
 
 export default class AuthButtons extends Component {
 

@@ -1,16 +1,16 @@
 import React, { Component } from 'react'
 import Amplify, { Auth } from 'aws-amplify';
-import aws_exports from '../aws-exports';
+import aws_exports from '../../aws-exports';
 
 Amplify.configure(aws_exports);
 
 // components
-import Password from './password'
-import AuthMessage from './auth-message'
+import AuthPassword from './password'
+import AuthMessage from './message'
 // styles
-import formStyles from '../stylesheets/form.css'
-import buttonStyles from '../stylesheets/button.css'
-import inputStyles from '../stylesheets/input.css'
+import formStyles from '../../stylesheets/form.css'
+import buttonStyles from '../../stylesheets/button.css'
+import inputStyles from '../../stylesheets/input.css'
 
 export default class AuthForm extends Component {
 	constructor(props) {
@@ -28,7 +28,7 @@ export default class AuthForm extends Component {
 			emailLength: 0,
 
 			// ERRORS:
-			error: '',
+			errors: [],
 
 			// CONFIRMATION:
 			loginSuccess: false,
@@ -112,11 +112,16 @@ export default class AuthForm extends Component {
 			|| (id == 'passwordSecondary' && value != this.state.passwordPrimary) // password equality test
 		) {
 			// don't override existing error
-			if ( ! this.state.error.length)
-				this.setState({ error: id })
+			if ( ! this.state.errors.includes(id))
+				this.setState((prevState) => {
+					return prevState.errors.push(id)
+				})
 		}
 		else {
-			this.setState({ error: '' })
+			const i = this.state.errors.indexOf(id)
+			this.setState((prevState) => {
+				return prevState.errors.splice(i, 1)
+			})
 		}
 	}
 
@@ -145,7 +150,7 @@ export default class AuthForm extends Component {
 						</label>
 					</div>
 
-					<Password role="Primary"
+					<AuthPassword role="Primary"
 										handleChange={this.handleInputChange}
 										value={this.state.password}
 										validatePassword={this.validateInput}
@@ -154,7 +159,7 @@ export default class AuthForm extends Component {
 										/>
 
 					{ this.props.authMode == 'signup'
-						? <Password role="Secondary"
+						? <AuthPassword role="Secondary"
 												handleChange={this.handleInputChange}
 												value={this.state.passwordSecondary}
 												validatePassword={this.validateInput}
@@ -164,9 +169,7 @@ export default class AuthForm extends Component {
 						: null }
 				</div>
 
-				{ this.state.error.length
-						? <AuthMessage type={this.state.error} />
-						: null }
+				{ this.state.errors.map( (err, i) => <AuthMessage type={err} key={i} /> ) }
 
 				<button className={'input-button' + (hasError ? ' error' : '')}
 								type="submit">
