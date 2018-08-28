@@ -38,8 +38,10 @@ export default class AuthForm extends Component {
 		this.handleFormSubmit = this.handleFormSubmit.bind(this)
 		this.handleInputChange = this.handleInputChange.bind(this)
 		this.validateInput = this.validateInput.bind(this)
+		// bind methods
 		this.handleError = this.handleError.bind(this)
 		this.getClassName = this.getClassName.bind(this)
+		this.hasErrors = this.hasErrors.bind(this)
 	}
 
 	handleError(err){
@@ -139,10 +141,17 @@ export default class AuthForm extends Component {
 		}
 		else if (type == 'button') {
 			return 'input-button'
-				+ (['email', 'passwordPrimary', 'passwordSecondary'].includes(this.state.error)
-					? ' error'
-					: '')
+				+ (this.hasErrors() ? ' error' : '')
 		}
+	}
+
+	hasErrors() {
+		if ( ! this.state.errors.length) return false;
+
+		const errors = ['email', 'passwordPrimary', 'passwordSecondary']
+		return this.state.errors.every(err => {
+			return errors.indexOf(err) !== -1
+		})
 	}
 
 	componentDidUpdate(prevProps, prevState) {
@@ -191,9 +200,7 @@ export default class AuthForm extends Component {
  						: null }
 
 				<button className={this.getClassName('button')} type="submit">
-					{ ['email', 'passwordPrimary', 'passwordSecondary'].includes(this.state.error)
-							? 'No dice'
-							: 'Cha Ching!' }
+					{ this.hasErrors() ? 'No dice' : 'Cha Ching!' }
 				</button>
 
 			</form>
