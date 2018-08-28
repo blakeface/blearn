@@ -39,6 +39,7 @@ export default class AuthForm extends Component {
 		this.handleInputChange = this.handleInputChange.bind(this)
 		this.validateInput = this.validateInput.bind(this)
 		this.handleError = this.handleError.bind(this)
+		this.getClassName = this.getClassName.bind(this)
 	}
 
 	handleError(err){
@@ -49,7 +50,7 @@ export default class AuthForm extends Component {
 		e.preventDefault();
 
 		// SIGNUP
-		if (this.props.authMode == 'signup') {
+		if (this.props.mode == 'signup') {
 			// step #1
 			await Auth.signUp({
 				username: this.state.email,
@@ -60,14 +61,14 @@ export default class AuthForm extends Component {
 			})
 				.then( async data => {
 					console.log('data from signUp', data)
-					this.props.updateParentState({ loggedin: true })
+					this.props.updateParentState({ signedup: true })
 				})
 				.catch(err => {
 					this.handleError(err)
 					this.props.updateParentState({
 						// user already exists
 						usernameExists: err.code == 'UsernameExistsException',
-						loggedin: false,
+						signedup: false,
 					})
 				})
 
@@ -127,6 +128,23 @@ export default class AuthForm extends Component {
 		}
 	}
 
+	getClassName(type) {
+		const length = this.state[type + 'Length']
+
+		if (type == 'email' || type.indexOf('password') != -1) {
+			return 'input'
+				+ (this.state.errors.includes(type) ? ' error' : '')
+				+ (length > 0 ? ' input-filled' : '' )
+
+		}
+		else if (type == 'button') {
+			return 'input-button'
+				+ (['email', 'passwordPrimary', 'passwordSecondary'].includes(this.state.error)
+					? ' error'
+					: '')
+		}
+	}
+
 	componentDidUpdate(prevProps, prevState) {
 		// reset error message
 		// if (prevProps != this.props) {
@@ -135,13 +153,12 @@ export default class AuthForm extends Component {
 	}
 
 	render() {
-		const hasError = ( ['email', 'passwordPrimary', 'passwordSecondary'].includes(this.state.error) )
 
 		return (
 			<form onSubmit={this.handleFormSubmit}>
 
 				<div className="inputs-container">
-					<div className={'input' + (this.state.error == 'email' ? ' error' : '') + (this.state.emailLength > 0 ? ' input-filled' : '' )}>
+					<div className={this.getClassName('email')}>
 						<input className="input-field" type="email" id="email" name="email"
 									onChange={this.handleInputChange}
 									value={this.state.email}
@@ -156,26 +173,27 @@ export default class AuthForm extends Component {
 										handleChange={this.handleInputChange}
 										value={this.state.password}
 										validatePassword={this.validateInput}
-										hasError={this.state.error == 'passwordPrimary'}
-										isFilled={this.state.passwordPrimaryLength > 0}
+										getClassName={this.getClassName}
 										/>
 
-					{ this.props.authMode == 'signup'
-						? <AuthPassword role="Secondary"
-												handleChange={this.handleInputChange}
-												value={this.state.passwordSecondary}
-												validatePassword={this.validateInput}
-												hasError={this.state.error == 'passwordSecondary'}
-												isFilled={this.state.passwordSecondaryLength > 0}
-												/>
-						: null }
+					{ this.props.mode == 'signup'
+							? <AuthPassword role="Secondary"
+													handleChange={this.handleInputChange}
+													value={this.state.passwordSecondary}
+													validatePassword={this.validateInput}
+													getClassName={this.getClassName}
+													/>
+							: null }
 				</div>
 
-				{ this.state.errors.map( (err, i) => <AuthMessage type={err} key={i} /> ) }
+				{ this.props.mode == 'signup'
+ 						? this.state.errors.map( (err, i) => <AuthMessage type={err} key={i} /> )
+ 						: null }
 
-				<button className={'input-button' + (hasError ? ' error' : '')}
-								type="submit">
-					{ hasError ? 'No dice' : 'Cha Ching!' }
+				<button className={this.getClassName('button')} type="submit">
+					{ ['email', 'passwordPrimary', 'passwordSecondary'].includes(this.state.error)
+							? 'No dice'
+							: 'Cha Ching!' }
 				</button>
 
 			</form>

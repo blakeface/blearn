@@ -3,17 +3,18 @@ import React, { Component } from 'react'
 export default class AuthPassword extends Component {
 
 	render() {
+		const id = "password" + this.props.role
 		return (
-			<div className={'input' + (this.props.hasError ? ' error' : '') + (this.props.isFilled ? ' input-filled' : '' )}>
+			<div className={this.props.getClassName(id)}>
 				<input className="input-field"
 							type="password"
-							id={"password" + this.props.role}
-							name={"password" + this.props.role}
+							id={id}
+							name={id}
 							onChange={this.props.handleChange}
 							value={this.props.value}
 							onBlur={this.props.validatePassword}
 							/>
-				<label className="input-label" htmlFor={"password" + this.props.role}>
+				<label className="input-label" htmlFor={id}>
 					<span className="label-content">
 						{this.props.role == 'Secondary' ? 'Confirm' : ''} Password
 					</span>

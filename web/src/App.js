@@ -1,4 +1,5 @@
-import React, { Component } from 'react';
+import React, { Component } from 'react'
+
 // components
 import AuthForm from './components/auth/form'
 import AuthButtons from './components/auth/buttons'
@@ -10,9 +11,10 @@ export default class App extends Component {
 	constructor(props){
 		super(props)
 		this.state = {
-			authMode: 'default',
+			authMode: 'default', // ['default', 'signup', 'login']
 			loggedin: false,
-			errors: [],
+			signedup: false,
+			messages: [],
 		}
 
 		// bind methods
@@ -26,11 +28,17 @@ export default class App extends Component {
 		})
 	}
 
-	handleChildStateChange(err) {
-		console.log('handleChildStateChange', err)
+	handleChildStateChange(obj) {
+		console.log('handleChildStateChange', obj)
 	}
 
 	render() {
+
+		const messages = {
+			errorUsernameExists: "For security reasons, I can't confirm that you've already signed up... but if I was you, I'd reset your password 😉",
+			loginSuccess: "👍 Success! Please check your email for a verification code.",
+		}
+
 		return (
 			<section className={this.state.authMode}>
 				<div>
@@ -42,11 +50,11 @@ export default class App extends Component {
 						? null
 						: <AuthButtons handleClick={this.handleButtonClick} /> }
 
-				{ (this.state.authMode == 'signup' || this.state.authMode == 'login')
-						? <AuthForm authMode={this.state.authMode} updateParentState={this.handleChildStateChange} />
+				{ ( ! this.state.loggedin && (this.state.authMode == 'signup' || this.state.authMode == 'login'))
+						? <AuthForm mode={this.state.authMode} updateParentState={this.handleChildStateChange} />
 						: null }
 
-				{ this.state.loggedin
+				{ this.state.signedup
 						? <AuthVerify />
 						: null }
 

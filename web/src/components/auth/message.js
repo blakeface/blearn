@@ -14,12 +14,6 @@ export default class AuthMessage extends Component {
 			passwordSecondary: {
 				__html: "🤔 Passwords don't match :("
 			},
-			errorUsernameExists: {
-				__html: "For security reasons, I can't confirm that you've already signed up... but if I was you, I'd reset your password 😉",
-			},
-			loginSuccess: {
-				__html: "👍 Success! Please check your email for a verification code."
-			},
 		}
 
 		return (
