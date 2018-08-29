@@ -1,10 +1,17 @@
 import React, { Component } from 'react'
+import Amplify, { Auth } from 'aws-amplify'
+import aws_exports from '../aws-exports'
 
 // components
-import AuthForm from './components/auth/form'
-import AuthButtons from './components/auth/buttons'
+import AuthForm from './auth/form'
+import AuthButtons from './auth/buttons'
+
+// containers
+import AuthFormContainer from '../containers/auth'
+
 // styles
-import globalStyle from './stylesheets/globals.css'
+import globalStyle from '../stylesheets/globals.css'
+
 
 export default class App extends Component {
 	constructor(props){
@@ -12,7 +19,6 @@ export default class App extends Component {
 		this.state = {
 			authMode: 'default', // ['default', 'signup', 'login']
 			loggedin: false,
-			messages: [],
 		}
 
 		// bind methods
