@@ -1,11 +1,12 @@
 import React from 'react'
-import { render } from 'react-dom'
+import ReactDOM from 'react-dom'
 import { Provider } from 'react-redux'
 import { createStore } from 'redux'
-import authApp from './reducers/auth'
+import blearnReducer from './reducers'
 import App from './components/App'
+import registerServiceWorker from './registerServiceWorker'
 
-const store = createStore(authApp)
+const store = createStore(blearnReducer)
 
 ReactDOM.render(
   <Provider store={store}>
@@ -14,4 +15,4 @@ ReactDOM.render(
   document.getElementById('root')
 )
 
-registerServiceWorker();
+// registerServiceWorker();

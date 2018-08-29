@@ -10,8 +10,6 @@ export const AuthMode = {
 
 /* ACTION CREATORS */
 export function setAuthMode(mode) {
-  return {
-  	type: SET_AUTH_MODE,
-  	mode
-  }
+	console.log('in action creator', mode)
+  return { type: SET_AUTH_MODE, mode }
 }

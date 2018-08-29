@@ -4,10 +4,9 @@ import aws_exports from '../aws-exports'
 
 // components
 import AuthForm from './auth/form'
-import AuthButtons from './auth/buttons'
 
 // containers
-import AuthFormContainer from '../containers/auth'
+import AuthButtonsContainer from '../containers/buttons'
 
 // styles
 import globalStyle from '../stylesheets/globals.css'
@@ -45,7 +44,7 @@ export default class App extends Component {
 				</div>
 
 				{ ! this.state.loggedin
-						? <AuthButtons handleClick={this.handleButtonClick} />
+						? <AuthButtonsContainer />
 						: null }
 
 				{ ! this.state.loggedin && (this.state.authMode == 'signup' || this.state.authMode == 'login')
