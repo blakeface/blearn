@@ -12,7 +12,7 @@ export default class AuthPassword extends Component {
 							name={id}
 							onChange={this.props.handleChange}
 							value={this.props.value}
-							onBlur={this.props.validatePassword}
+							onBlur={this.props.handleBlur}
 							/>
 				<label className="input-label" htmlFor={id}>
 					<span className="label-content">

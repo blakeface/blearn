@@ -5,8 +5,10 @@ import aws_exports from '../../aws-exports';
 Amplify.configure(aws_exports);
 
 // components
-import AuthPassword from './password'
 import AuthMessage from './message'
+import AuthInputs from './inputs'
+import AuthVerify from './verify'
+
 // styles
 import formStyles from '../../stylesheets/form.css'
 import buttonStyles from '../../stylesheets/button.css'
@@ -17,6 +19,10 @@ export default class AuthForm extends Component {
 		super(props)
 
 		this.state = {
+			// ERRORS:
+			// ['email', 'passwordPrimary', 'passwordSecondary', 'verify', 'UsernameExistsException']
+			errors: [],
+
 			// PASSWORDS
 			passwordPrimary: '',
 			passwordSecondary: '',
@@ -27,11 +33,13 @@ export default class AuthForm extends Component {
 			email: '',
 			emailLength: 0,
 
-			// ERRORS:
-			errors: [],
+			// VERICATION
+			verify: '',
+			verifyLength: 0,
 
 			// CONFIRMATION:
 			loginSuccess: false,
+			signupSuccess: false,
 		}
 
 		// bind eventHandlers
@@ -63,14 +71,14 @@ export default class AuthForm extends Component {
 			})
 				.then( async data => {
 					console.log('data from signUp', data)
-					this.props.updateParentState({ signedup: true })
+					if (data.user) this.setState({ signupSuccess: true })
 				})
 				.catch(err => {
 					this.handleError(err)
-					this.props.updateParentState({
-						// user already exists
-						usernameExists: err.code == 'UsernameExistsException',
-						signedup: false,
+					// user already exists
+					this.setState(prevState => {
+						prevState.signupSuccess = false
+						prevState.errors.push(err.code)
 					})
 				})
 
@@ -95,9 +103,7 @@ export default class AuthForm extends Component {
 
 	handleInputChange(e) {
 		const value = e.target.value
-		const parentNode = e.target.parentNode
 
-		// update email and password states
 		this.setState({
 			[e.target.id]: value,
 			[`${e.target.id}Length`]: value.length
@@ -107,6 +113,8 @@ export default class AuthForm extends Component {
 	validateInput(e) {
 		const id = e.target.id
 		const value = e.target.value
+
+		console.log(id, value, e)
 		const emailReg = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
 		if (
@@ -133,7 +141,7 @@ export default class AuthForm extends Component {
 	getClassName(type) {
 		const length = this.state[type + 'Length']
 
-		if (type == 'email' || type.indexOf('password') != -1) {
+		if (type == 'email' || type.indexOf('password') != -1) || type == 'verify' {
 			return 'input'
 				+ (this.state.errors.includes(type) ? ' error' : '')
 				+ (length > 0 ? ' input-filled' : '' )
@@ -156,9 +164,13 @@ export default class AuthForm extends Component {
 
 	componentDidUpdate(prevProps, prevState) {
 		// reset error message
-		// if (prevProps != this.props) {
-		// 	this.setState({ errorUsernameExists: false })
-		// }
+		if (prevProps != this.props) {
+			this.setState({
+				errors: [],
+				loginSuccess: false,
+				signupSuccess: false,
+			})
+		}
 	}
 
 	render() {
@@ -166,36 +178,25 @@ export default class AuthForm extends Component {
 		return (
 			<form onSubmit={this.handleFormSubmit}>
 
-				<div className="inputs-container">
-					<div className={this.getClassName('email')}>
-						<input className="input-field" type="email" id="email" name="email"
-									onChange={this.handleInputChange}
-									value={this.state.email}
-									onBlur={this.validateInput}
-									/>
-						<label className="input-label" htmlFor="email">
-							<span className="label-content">Email</span>
-						</label>
-					</div>
-
-					<AuthPassword role="Primary"
-										handleChange={this.handleInputChange}
-										value={this.state.password}
-										validatePassword={this.validateInput}
-										getClassName={this.getClassName}
-										/>
-
-					{ this.props.mode == 'signup'
-							? <AuthPassword role="Secondary"
-													handleChange={this.handleInputChange}
-													value={this.state.passwordSecondary}
-													validatePassword={this.validateInput}
+				{ ! this.state.signupSuccess && ! this.state.loginSuccess
+						? <AuthInputs mode={this.props.mode}
 													getClassName={this.getClassName}
+													handleChange={this.handleInputChange}
+													handleBlur={this.validateInput}
+													email={this.state.email}
+													passwordPrimary={this.state.passwordPrimary}
+													passwordSecondary={this.state.passwordSecondary}
 													/>
-							: null }
-				</div>
+						: null }
 
-				{ this.props.mode == 'signup'
+ 				{ this.state.signupSuccess
+ 						? <AuthVerify code={this.state.verify}
+ 													handleChange={this.handleInputChange}
+ 													getClassName={this.getClassName}
+ 													/>
+ 						: null }
+
+ 				{ this.props.mode == 'signup'
  						? this.state.errors.map( (err, i) => <AuthMessage type={err} key={i} /> )
  						: null }
 

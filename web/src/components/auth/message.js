@@ -3,8 +3,7 @@ import React, { Component } from 'react'
 export default class AuthMessage extends Component {
 
 	render() {
-
-		this.messages = {
+		const messages = {
 			email: {
 				__html: "🧐 Your email looks weird. Does it follow this format: <i>name@domain.tld</i>?"
 			},
@@ -14,10 +13,17 @@ export default class AuthMessage extends Component {
 			passwordSecondary: {
 				__html: "🤔 Passwords don't match :("
 			},
+			verify: {
+				__html: "😖 Verification code is incorrect. Please double-check your input."
+			}
 		}
 
-		return (
-			<span className="errorMessage" dangerouslySetInnerHTML={this.messages[this.props.type]}></span>
+		// ensure we have the correct message in message object
+		console.log(Object.keys(messages))
+		console.log(this.props.type)
+		if ( ! Object.keys(messages).includes(this.props.type) ) return null;
+		else return (
+			<span className="errorMessage" dangerouslySetInnerHTML={messages[this.props.type]}></span>
 		)
 	}
 }

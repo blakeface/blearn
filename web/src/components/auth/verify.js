@@ -6,7 +6,6 @@ export default class AuthVerify extends Component {
 
 		// bind eventHandlers
 		this.handleFormSubmit = this.handleFormSubmit.bind(this)
-		this.handleInputChange = this.handleInputChange.bind(this)
 	}
 
 	handleFormSubmit(e) {
@@ -16,12 +15,12 @@ export default class AuthVerify extends Component {
 	render() {
 		return (
 			<form onSubmit={this.handleFormSubmit}>
-				<div className={'input' + (this.state.verificationCodeLength > 0 ? ' input-filled' : '' )}>
-						<input className="input-field" type="text" id="verificationCode" name="verificationCode"
+				<div className={this.props.getClassName('verify')}>
+						<input className="input-field" type="number" id="verify" name="verify"
 									onChange={this.props.handleChange}
-									value={this.state.verificationCode}
+									value={this.props.code}
 									/>
-						<label className="input-label" htmlFor="verificationCode">
+						<label className="input-label" htmlFor="verify">
 							<span className="label-content">Verification Code</span>
 						</label>
 					</div>
