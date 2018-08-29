@@ -141,7 +141,7 @@ export default class AuthForm extends Component {
 	getClassName(type) {
 		const length = this.state[type + 'Length']
 
-		if (type == 'email' || type.indexOf('password') != -1) || type == 'verify' {
+		if (type == 'email' || type.indexOf('password') != -1 || type == 'verify') {
 			return 'input'
 				+ (this.state.errors.includes(type) ? ' error' : '')
 				+ (length > 0 ? ' input-filled' : '' )
