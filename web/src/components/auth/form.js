@@ -9,11 +9,6 @@ import AuthMessage from './message'
 import AuthInputs from './inputs'
 import AuthVerify from './verify'
 
-// styles
-import formStyles from '../../stylesheets/form.css'
-import buttonStyles from '../../stylesheets/button.css'
-import inputStyles from '../../stylesheets/input.css'
-
 export default class AuthForm extends Component {
 	constructor(props) {
 		super(props)

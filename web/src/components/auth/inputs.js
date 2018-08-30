@@ -1,38 +1,46 @@
 import React, { Component } from 'react';
-
+import PropTypes from 'prop-types'
 import AuthPassword from './password'
 
-export default class AuthInputs extends Component {
-	render() {
-		return (
-			<div className="inputs-container">
-				<div className={this.props.getClassName('email')}>
-					<input className="input-field" type="email" id="email" name="email"
-								onChange={this.props.handleChange}
-								onBlur={this.props.handleBlur}
-								value={this.props.email}
-								/>
-					<label className="input-label" htmlFor="email">
-						<span className="label-content">Email</span>
-					</label>
-				</div>
+const AuthInputs = ({ getClassName, handleChange, handleBlur, email, passwordPrimary, passwordSecondary, mode }) => (
+	<div className="inputs-container">
+		<div className={getClassName('email')}>
+			<input className="input-field" type="email" id="email" name="email"
+						onChange={handleChange}
+						onBlur={handleBlur}
+						value={email}
+						/>
+			<label className="input-label" htmlFor="email">
+				<span className="label-content">Email</span>
+			</label>
+		</div>
 
-				<AuthPassword role="Primary"
-									value={this.props.passwordPrimary}
-									handleChange={this.props.handleChange}
-									handleBlur={this.props.handleBlur}
-									getClassName={this.props.getClassName}
-									/>
+		<AuthPassword role="Primary"
+							value={passwordPrimary}
+							handleChange={handleChange}
+							handleBlur={handleBlur}
+							getClassName={getClassName}
+							/>
 
-				{ this.props.mode == 'signup'
-						? <AuthPassword role="Secondary"
-												value={this.props.passwordSecondary}
-												handleChange={this.props.handleChange}
-												handleBlur={this.props.handleBlur}
-												getClassName={this.props.getClassName}
-												/>
-						: null }
-			</div>
-		)
-	}
+		{ mode == 'signup'
+				? <AuthPassword role="Secondary"
+										value={passwordSecondary}
+										handleChange={handleChange}
+										handleBlur={handleBlur}
+										getClassName={getClassName}
+										/>
+				: null }
+	</div>
+)
+
+AuthInputs.propTypes = {
+	getClassName: PropTypes.func.isRequired,
+	handleChange: PropTypes.func.isRequired,
+	handleBlur: PropTypes.func.isRequired,
+	email: PropTypes.string.isRequired,
+	passwordPrimary: PropTypes.string.isRequired,
+	passwordSecondary: PropTypes.string.isRequired,
+	mode: PropTypes.string.isRequired,
 }
+
+export default AuthInputs
