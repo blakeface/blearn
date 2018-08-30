@@ -27,14 +27,6 @@ export default class AuthForm extends Component {
 			// EMAILS
 			email: '',
 			emailLength: 0,
-
-			// VERICATION
-			verify: '',
-			verifyLength: 0,
-
-			// CONFIRMATION:
-			loginSuccess: false,
-			signupSuccess: false,
 		}
 
 		// bind eventHandlers
@@ -66,14 +58,17 @@ export default class AuthForm extends Component {
 			})
 				.then( async data => {
 					console.log('data from signUp', data)
-					if (data.user) this.setState({ signupSuccess: true })
+					if (data.user) this.props.handleParentState({
+						signedup: true,
+						email: this.state.email,
+					})
 				})
 				.catch(err => {
 					this.handleError(err)
 					// user already exists
-					this.setState(prevState => {
-						prevState.signupSuccess = false
-						prevState.errors.push(err.code)
+					this.props.handleParentState({
+						signedup: false,
+						messages: err.code,
 					})
 				})
 
@@ -108,8 +103,6 @@ export default class AuthForm extends Component {
 	validateInput(e) {
 		const id = e.target.id
 		const value = e.target.value
-
-		console.log(id, value, e)
 		const emailReg = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
 		if (
@@ -118,17 +111,13 @@ export default class AuthForm extends Component {
 			|| (id == 'passwordSecondary' && value != this.state.passwordPrimary) // password equality test
 		) {
 			if ( ! this.state.errors.includes(id)) {
-				this.setState((prevState) => {
-					return prevState.errors.push(id)
-				})
+				this.setState( prevState => prevState.errors.push(id) )
 			}
 		}
 		else {
 			const i = this.state.errors.indexOf(id)
 			if (i > -1) {
-				this.setState((prevState) => {
-					return prevState.errors.splice(i, 1)
-				})
+				this.setState( prevState => prevState.errors.splice(i, 1) )
 			}
 		}
 	}
@@ -149,6 +138,11 @@ export default class AuthForm extends Component {
 	}
 
 	hasErrors() {
+		if ( this.state.emailLength < 4
+			|| this.state.passwordPrimaryLength < 8
+			|| this.state.passwordSecondaryLength < 8
+		) return true;
+
 		if ( ! this.state.errors.length) return false;
 
 		const errors = ['email', 'passwordPrimary', 'passwordSecondary']
@@ -173,30 +167,21 @@ export default class AuthForm extends Component {
 		return (
 			<form onSubmit={this.handleFormSubmit}>
 
-				{ ! this.state.signupSuccess && ! this.state.loginSuccess
-						? <AuthInputs mode={this.props.mode}
-													getClassName={this.getClassName}
-													handleChange={this.handleInputChange}
-													handleBlur={this.validateInput}
-													email={this.state.email}
-													passwordPrimary={this.state.passwordPrimary}
-													passwordSecondary={this.state.passwordSecondary}
-													/>
-						: null }
-
- 				{ this.state.signupSuccess
- 						? <AuthVerify code={this.state.verify}
- 													handleChange={this.handleInputChange}
- 													getClassName={this.getClassName}
- 													/>
- 						: null }
+				<AuthInputs mode={this.props.mode}
+										getClassName={this.getClassName}
+										handleChange={this.handleInputChange}
+										handleBlur={this.validateInput}
+										email={this.state.email}
+										passwordPrimary={this.state.passwordPrimary}
+										passwordSecondary={this.state.passwordSecondary}
+										/>
 
  				{ this.props.mode == 'signup'
- 						? this.state.errors.map( (err, i) => <AuthMessage type={err} key={i} /> )
+ 						? this.state.errors.map( (err, i) => <AuthMessage type="error" message={err} key={i} /> )
  						: null }
 
 				<button className={this.getClassName('button')} type="submit">
-					{ this.hasErrors() ? 'No dice' : 'Cha Ching!' }
+					{ this.hasErrors() ? 'Not yet...' : "Let's Do This Thing!" }
 				</button>
 
 			</form>

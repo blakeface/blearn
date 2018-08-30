@@ -12,14 +12,6 @@ form {
 		#FFF
 	);
 }
-.login .errorMessage {
-	background: linear-gradient(
-		-45deg,
-		var(--login-error-primary),
-		var(--login-error-secondary),
-		#FFF
-	);
-}
 
 .errorMessage {
 	margin: 0.5em;

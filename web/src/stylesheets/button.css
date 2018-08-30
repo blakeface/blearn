@@ -86,9 +86,9 @@ https://tympanus.net/Development/ButtonStylesInspiration
 
 /* ----COLORS---- */
 .input-button#signup:hover::after
-, .input-button#signup:focus::after,
-, .singup .input-button:hover::after
-, .signup .input-button:focus::after, {
+, .input-button#signup:focus::after
+, .signup .input-button:hover::after
+, .signup .input-button:focus::after {
 	background-color: var(--signup-input-line);
 }
 .input-button#login:hover::after
