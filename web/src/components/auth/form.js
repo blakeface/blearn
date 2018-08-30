@@ -1,8 +1,5 @@
 import React, { Component } from 'react'
-import Amplify, { Auth } from 'aws-amplify';
-import aws_exports from '../../aws-exports';
-
-Amplify.configure(aws_exports);
+import { Auth } from 'aws-amplify';
 
 // components
 import AuthMessage from './message'
@@ -48,7 +45,6 @@ export default class AuthForm extends Component {
 
 		// SIGNUP
 		if (this.props.mode == 'signup') {
-			// step #1
 			await Auth.signUp({
 				username: this.state.email,
 				password: this.state.passwordPrimary,
@@ -71,16 +67,6 @@ export default class AuthForm extends Component {
 						message: err.code,
 					})
 				})
-
-			// step #2
-			if (this.state.loginSuccess) {
-
-				// await Auth.confirmSignUp(this.state.email, {
-				// 	forceAliasCreation: true
-				// })
-				// 	.then(data => console.log('data in confirmSignUp', data))
-				// 	.catch(err => this.handleErr(err));
-			}
 		}
 
 		// LOGIN

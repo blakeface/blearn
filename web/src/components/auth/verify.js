@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import Amplify, { Auth } from 'aws-amplify';
+import { Auth } from 'aws-amplify';
 
 export default class AuthVerify extends Component {
 	constructor(props) {
@@ -16,10 +16,10 @@ export default class AuthVerify extends Component {
 		this.handleBlur = this.handleBlur.bind(this)
 	}
 
-	handleFormSubmit(e) {
+	async handleFormSubmit(e) {
 		e.preventDefault()
 
-		Auth.confirmSignUp(this.props.email, this.state.verifyCode, {
+		await Auth.confirmSignUp(this.props.email, this.state.verifyCode, {
 		  forceAliasCreation: true
 		})
 			.then( data => this.props.handleParentState({ verified: (data == 'SUCCESS') }) )

@@ -6,6 +6,11 @@ import AuthButtons from './auth/buttons'
 import AuthVerify from './auth/verify'
 import AuthMessage from './auth/message'
 
+// aws config
+import Amplify, { Auth } from 'aws-amplify';
+import aws_exports from '../aws-exports';
+Amplify.configure(aws_exports);
+
 // styles (will smartly load this in one day)
 import globalStyle from '../stylesheets/globals.css'
 import buttonStyles from '../stylesheets/button.css'
@@ -17,9 +22,9 @@ export default class App extends Component {
 		super(props)
 		this.state = {
 			authMode: 'default', // ['default', 'signup', 'login']
-			loggedin: false,
 			signedup: false,
 			verified: false,
+			loggedin: false,
 			email: '',
 			message: '',
 		}
@@ -50,6 +55,7 @@ export default class App extends Component {
 						authMode: 'login',
 					})
 				case ('loggedin'):
+					this.setState({ message: '' })
 				case ('email'):
 				case ('message'):
 					return this.setState(prevState => {
@@ -59,6 +65,13 @@ export default class App extends Component {
 					})
 			}
 		})
+	}
+
+	async componentWillMount() {
+		// is user already logged in?
+		await Auth.currentAuthenticatedUser()
+			.then(user => this.setState({ loggedin: true }))
+			.catch(err => this.setState({ loggedin: false }))
 	}
 
 	render() {
@@ -75,7 +88,7 @@ export default class App extends Component {
 
 				{ this.state.message ? <AuthMessage type='form' message={this.state.message} /> : null }
 
-				{ (this.state.authMode == 'signup' || this.state.authMode == 'login')
+				{ ! this.state.loggedin && (this.state.authMode == 'signup' || this.state.authMode == 'login')
 						? <AuthForm mode={this.state.authMode} handleParentState={this.handleChildState} />
 						: null }
 
