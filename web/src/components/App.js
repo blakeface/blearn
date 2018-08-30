@@ -1,10 +1,13 @@
 import React, { Component } from 'react'
 
 // components
-import AuthForm from './components/auth/form'
-import AuthButtons from './components/auth/buttons'
-// styles
-import globalStyle from './stylesheets/globals.css'
+import AuthForm from './auth/form'
+import AuthButtons from './auth/buttons'
+// styles (will smartly load this in one day)
+import globalStyle from '../stylesheets/globals.css'
+import buttonStyles from '../stylesheets/button.css'
+import formStyles from '../stylesheets/form.css'
+import inputStyles from '../stylesheets/input.css'
 
 export default class App extends Component {
 	constructor(props){

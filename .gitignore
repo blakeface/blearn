@@ -1,16 +1,39 @@
-/awsmobilejs
+# --- FROM MOBILE --
+
+package-lock.json
+
+# expo
+.expo/
+
+# dependencies
+*/node_modules
+
+# misc
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+
+# --- FROM WEB ---
+
+*/awsmobilejs
 *.log
 package-lock.json
 
 # dependencies
-/node_modules
+*/node_modules
 
 # testing
-/coverage
+*/coverage
 
 # production
-/build
-/dist
+*/build
+*/dist
 
 # misc
 .DS_Store

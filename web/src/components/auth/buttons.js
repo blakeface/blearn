@@ -1,18 +1,19 @@
-import React, { Component } from 'react'
-import buttonStyles from '../../stylesheets/button.css'
+import React from 'react'
+import PropTypes from 'prop-types'
 
-export default class AuthButtons extends Component {
+const AuthButtons = ({handleClick}) => (
+	<div className="button-container">
+		<button className="input-button" id="signup" onClick={handleClick}>
+			SIGN UP
+		</button>
+		<button className="input-button" id="login" onClick={handleClick}>
+			LOGIN
+		</button>
+	</div>
+)
 
-	render() {
-		return (
-			<div className="button-container">
-				<button className="input-button" id="signup" onClick={this.props.handleClick}>
-					SIGN UP
-				</button>
-				<button className="input-button" id="login" onClick={this.props.handleClick}>
-					LOGIN
-				</button>
-			</div>
-		)
-	}
+AuthButtons.propTypes = {
+	handleClick: PropTypes.func.isRequired
 }
+
+export default AuthButtons
