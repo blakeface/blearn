@@ -140,12 +140,14 @@ export default class AuthForm extends Component {
 	hasErrors() {
 		if ( this.state.emailLength < 4
 			|| this.state.passwordPrimaryLength < 8
-			|| this.state.passwordSecondaryLength < 8
+			|| (this.state.authMode == 'signup' && this.state.passwordSecondaryLength < 8)
 		) return true;
 
 		if ( ! this.state.errors.length) return false;
 
-		const errors = ['email', 'passwordPrimary', 'passwordSecondary']
+		const errors = ['email', 'passwordPrimary']
+		if (this.state.authMode == 'signup') errors.push('passwordSecondary')
+
 		return this.state.errors.every(err => {
 			return errors.indexOf(err) !== -1
 		})
