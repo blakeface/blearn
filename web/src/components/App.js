@@ -19,8 +19,9 @@ export default class App extends Component {
 			authMode: 'default', // ['default', 'signup', 'login']
 			loggedin: false,
 			signedup: false,
+			verified: false,
 			email: '',
-			messages: [],
+			message: '',
 		}
 
 		// bind methods
@@ -36,19 +37,26 @@ export default class App extends Component {
 
 	handleChildState(obj) {
 		Object.keys(obj).forEach(key => {
+			console.log(this.state)
 			switch (key) {
 				case ('signedup'):
+					this.setState({
+						message: 'signupSuccess',
+						authMode: 'default',
+					})
+				case ('verified'):
+					this.setState({
+						message: 'verifySuccess',
+						authMode: 'login',
+					})
 				case ('loggedin'):
 				case ('email'):
+				case ('message'):
 					return this.setState(prevState => {
 						return {
-							[key]: obj[key],
-							messages: (obj[key] === true) ? [] : prevState.messages,
+							[key]: obj[key]
 						}
 					})
-				case ('messages'):
-					if ( ! this.state.messages.includes(obj[key]))
-						return this.setState( prevState => prevState.messages.push(obj[key]))
 			}
 		})
 	}
@@ -65,17 +73,13 @@ export default class App extends Component {
 						? <AuthButtons handleClick={this.handleButtonClick} />
 						: null }
 
-				{ this.state.messages.map(
-					(message, i) => <AuthMessage type='form' message={message} key={i} />
-				) }
+				{ this.state.message ? <AuthMessage type='form' message={this.state.message} /> : null }
 
-				{ ( ! this.state.loggedin
-					&& ! this.state.signedup
-					&& (this.state.authMode == 'signup' || this.state.authMode == 'login') )
+				{ (this.state.authMode == 'signup' || this.state.authMode == 'login')
 						? <AuthForm mode={this.state.authMode} handleParentState={this.handleChildState} />
 						: null }
 
-				{ this.state.signedup
+				{ this.state.signedup && ! this.state.verified
 						? <AuthVerify email={this.state.email} handleParentState={this.handleChildState} />
 						: null }
 

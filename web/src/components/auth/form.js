@@ -56,7 +56,7 @@ export default class AuthForm extends Component {
 					email: this.state.email,
 				},
 			})
-				.then( async data => {
+				.then(data => {
 					console.log('data from signUp', data)
 					if (data.user) this.props.handleParentState({
 						signedup: true,
@@ -68,7 +68,7 @@ export default class AuthForm extends Component {
 					// user already exists
 					this.props.handleParentState({
 						signedup: false,
-						messages: err.code,
+						message: err.code,
 					})
 				})
 

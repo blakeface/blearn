@@ -13,6 +13,7 @@ export default class AuthVerify extends Component {
 		// bind eventHandlers
 		this.handleFormSubmit = this.handleFormSubmit.bind(this)
 		this.handleChange = this.handleChange.bind(this)
+		this.handleBlur = this.handleBlur.bind(this)
 	}
 
 	handleFormSubmit(e) {
@@ -21,8 +22,8 @@ export default class AuthVerify extends Component {
 		Auth.confirmSignUp(this.props.email, this.state.verifyCode, {
 		  forceAliasCreation: true
 		})
-			.then(data => console.log(data))
-		  .catch(err => console.log(err));
+			.then( data => this.props.handleParentState({ verified: (data == 'SUCCESS') }) )
+		  .catch( err => this.props.handleParentState({ message: err.code}) )
 	}
 
 	handleChange(e) {
@@ -35,12 +36,22 @@ export default class AuthVerify extends Component {
 		})
 	}
 
+	handleBlur(e) {
+		const parentNodeClassList = e.target.parentNode.classList
+
+		if (this.state.verifyCodeLength > 0)
+			parentNodeClassList.add('input-filled')
+		else
+			parentNodeClassList.remove('input-filled')
+	}
+
 	render() {
 		return (
 			<form onSubmit={this.handleFormSubmit}>
 				<div className="input">
 					<input className="input-field" type="text" id="verifyCode" name="verifyCode"
 								onChange={this.handleChange}
+								onBlur={this.handleBlur}
 								value={this.state.verifyCode}
 								/>
 					<label className="input-label" htmlFor="verifyCode">

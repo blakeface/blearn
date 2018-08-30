@@ -3,19 +3,21 @@ import PropTypes from 'prop-types'
 
 const errorMessages = {
 	email: {
-		__html: "🧐 Your email looks weird. Does it follow this format: <i>name@domain.tld</i>?"
+		__html: "😫 Your email looks weird. Does it follow this format: <i>name@domain.tld</i>?"
 	},
 	passwordPrimary: {
-		__html: "🤭 Password must be at least 8 characters long."
+		__html: "😫 Password must be at least 8 characters long."
 	},
 	passwordSecondary: {
-		__html: "🤔 Passwords don't match."
+		__html: "😫 Passwords don't match."
 	},
 }
 
 const formMessages = {
-	loginSuccess: "Success! Please check your email for a verification code.",
-	UsernameExistsException: "Something isn't quiet right. If I was you, I'd try resetting my password..."
+	signupSuccess: "Thanks! Please check your email for a verification code.",
+	verifySuccess: "Success! Verified and Shmerified. Please login.",
+	UsernameExistsException: "Something isn't quiet right. If I was you, I'd try resetting my password... hint, hint",
+	CodeMismatchException: '😫 Invalid verification code. Try again.',
 }
 
 const AuthMessage = ({ type, message }) => {
@@ -26,7 +28,7 @@ const AuthMessage = ({ type, message }) => {
 			)
 		case ('form'):
 			return (
-				<span className="errorMessages">{formMessages[message]}</span>
+				<span className="errorMessage">{formMessages[message]}</span>
 			)
 		default:
 			return null
