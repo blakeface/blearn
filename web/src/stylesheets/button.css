@@ -8,6 +8,9 @@ https://tympanus.net/Development/ButtonStylesInspiration
 	flex-flow: row wrap;
 }
 
+.input-button.error {
+	cursor: not-allowed;
+}
 .input-button {
 	min-width: 150px;
 	max-width: 250px;
@@ -27,6 +30,7 @@ https://tympanus.net/Development/ButtonStylesInspiration
 	transition: color 0.3s;
 	-webkit-transition-timing-function: cubic-bezier(0.2, 1, 0.3, 1);
 	transition-timing-function: cubic-bezier(0.2, 1, 0.3, 1);
+	cursor: pointer;
 }
 
 .input-button:focus {
@@ -89,27 +93,28 @@ https://tympanus.net/Development/ButtonStylesInspiration
 , .input-button#signup:focus::after
 , .signup .input-button:hover::after
 , .signup .input-button:focus::after {
-	background-color: var(--signup-input-line);
+	background-color: var(--signup-input-light);
 }
-.input-button#login:hover::after
-, .input-button#login:focus::after
-, .login .input-button:hover::after
-, .login .input-button:focus::after {
-	background-color: var(--login-input-line);
-}
-
 .input-button#signup::before
 , .input-button#signup::after
 , .signup .input-button::before
 , .signup .input-button::after {
-	background: var(--signup-button);
+	background: var(--signup-input-dark);
 }
 
+.input-button#login:hover::after
+, .input-button#login:focus::after
+, .login .input-button:hover::after
+, .login .input-button:focus::after
+, .login .input-button#reset-password::before
+, .login .input-button#reset-password::after{
+	background-color: var(--login-input-light);
+}
 .input-button#login::before
 , .input-button#login::after
 , .login .input-button::before
 , .login .input-button::after {
-	background: var(--login-button);
+	background: var(--login-input-dark);
 }
 
 /* error state */
@@ -122,6 +127,7 @@ https://tympanus.net/Development/ButtonStylesInspiration
 , .login .input-button.error::before
 , .login .input-button.error::after {
 	background: var(--default-background);
+	cursor: not-allowed;
 }
 
 /* ----END COLORS---- */

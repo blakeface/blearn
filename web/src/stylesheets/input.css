@@ -102,43 +102,43 @@ https://tympanus.net/codrops/2015/01/08/inspiration-text-input-effects
 
 /* default state */
 .signup .input-label::after {
-	background: var(--signup-input-line);
+	background: var(--signup-input-light);
 }
 .login .input-label::after {
-	background: var(--login-input-line);
+	background: var(--login-input-light);
 }
 /* error state */
 .signup .error .input-label::after {
-	background: var(--signup-error-secondary);
+	background: var(--signup-error-2);
 }
 
 
 /* default state */
 .signup .input-field:focus + .input-label::after
 , .signup .input-filled .input-label::after {
-	background: var(--signup-button);
+	background: var(--signup-input-dark);
 }
 .login .input-field:focus + .input-label::after
 , .login .input-filled .input-label::after {
-	background: var(--login-button);
+	background: var(--login-input-dark);
 }
 /* error state */
 .signup .error.input-filled .input-label::after {
-	background: var(--signup-error-primary);
+	background: var(--signup-error-1);
 }
 
 
 /* default state */
 .signup .input-field:focus + .input-label .label-content
 , .signup .input-filled .input-label .label-content {
-	color: var(--signup-button);
+	color: var(--signup-input-dark);
 }
 .login .input-field:focus + .input-label .label-content
 , .login .input-filled .input-label .label-content {
-	color: var(--login-button);
+	color: var(--login-input-dark);
 }
 /* error state */
 .signup .error.input-filled .input-label .label-content {
-	color: var(--signup-error-primary);
+	color: var(--signup-error-1);
 }
 /* ---END COLORS--- */

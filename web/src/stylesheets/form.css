@@ -7,9 +7,17 @@ form {
 .signup .errorMessage {
 	background: linear-gradient(
 		-45deg,
-		var(--signup-error-primary),
-		var(--signup-error-secondary),
-		#FFF
+		var(--signup-error-1),
+		var(--signup-error-2) 30%,
+		var(--signup-error-3)
+	);
+}
+.login .errorMessage {
+	background: linear-gradient(
+		-45deg,
+		var(--login-error-1),
+		var(--login-error-2) 30%,
+		var(--login-error-3)
 	);
 }
 

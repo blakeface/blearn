@@ -37,7 +37,7 @@ export default class AuthForm extends Component {
 	}
 
 	handleError(err){
-		console.error('Error!:', err)
+		console.log('Error!:', err)
 	}
 
 	async handleFormSubmit(e) {
@@ -53,7 +53,7 @@ export default class AuthForm extends Component {
 				},
 			})
 				.then(data => {
-					console.log('data from signUp', data)
+					console.log('data', data)
 					if (data.user) this.props.handleParentState({
 						signedup: true,
 						email: this.state.email,
@@ -65,6 +65,7 @@ export default class AuthForm extends Component {
 					this.props.handleParentState({
 						signedup: false,
 						message: err.code,
+						authMode: 'login',
 					})
 				})
 		}
@@ -72,7 +73,11 @@ export default class AuthForm extends Component {
 		// LOGIN
 		else {
 			await Auth.signIn(this.state.email, this.state.passwordPrimary)
-				.then(data => console.log('data from signIn:', data))
+				.then(data => this.props.handleParentState({
+					signedup: false,
+					verified: false,
+					loggedin: true
+				}))
 				.catch(err => this.handleError(err))
 		}
 	}
@@ -168,9 +173,15 @@ export default class AuthForm extends Component {
  						? this.state.errors.map( (err, i) => <AuthMessage type="error" message={err} key={i} /> )
  						: null }
 
-				<button className={this.getClassName('button')} type="submit">
-					{ this.hasErrors() ? 'Not yet...' : "Let's Do This Thing!" }
-				</button>
+ 				<div className="button-container">
+	 				{ this.props.mode == 'login'
+	 						? <button className="input-button" id="reset-password">Reset Password</button>
+	 						: null }
+
+					<button className={this.getClassName('button')} type="submit">
+						{ this.hasErrors() ? 'Not yet...' : "Let's Do This Thing!" }
+					</button>
+ 				</div>
 
 			</form>
 		)

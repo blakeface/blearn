@@ -1,18 +1,22 @@
 :root {
 	/* defaults */
-  --default-background: #A08896;
+	--default-background: #A08896;
 
-  /* signup */
-  --signup-background: #F3A9AE;
-  --signup-button: #FE4365;
-  --signup-input-line: #FC9D9A;
-  --signup-error-primary: #42F9CB;
-  --signup-error-secondary: #A0FCE5;
+	/* signup */
+	--signup-background: #F3A9AE;
+	--signup-input-dark: #FE4365;
+	--signup-input-light: #FC9D9A;
+	--signup-error-1: #42F9CB;
+	--signup-error-2: #6DFBD7;
+	--signup-error-3: #A1FCE5;
 
-  /* login */
-  --login-background: #F9CDAD;
-  --login-button: #83AF9B;
-  --login-input-line: #C8C8A9;
+	/* login */
+	--login-background: #F9CDAD;
+	--login-input-dark: #83AF9B;
+	--login-input-light: #C8C8A9;
+	--login-error-1: #7C93A2;
+	--login-error-2: #AEBDC7;
+	--login-error-3: #DDE3E7;
 }
 
 body, main {
